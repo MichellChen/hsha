@@ -1,0 +1,37 @@
+半同步半异步简单Web服务器
+
+采用半同步半异步并发模式，Reactor事件处理模式实现的简单Web服务器
+
+服务器性能测试：
+
+压力测试工具 http_load
+
+服务器运行环境：
+	CPU : Intel(R) Core(TM) i7-6700 CPU @ 3.40GHz
+	内存　：　８G
+	操作系统 : Ubuntu16.04
+
+测试结果 :
+
+1、测试服务器每秒所能承受的平均访问量(吞吐量)
+	同时使用5个进程，随机访问urls.txt中的网址列表，总共访问1000次。运行之后的结果：
+robot@438robot:~/hsha/http_load-12mar2006$ ./http_load -parallel 5 -fetches 1000 urls.txt
+http://438robot:12345/index.html: timed out
+http://438robot:12345/index.html: byte count wrong
+http://438robot:12345/index.html: timed out
+http://438robot:12345/index.html: byte count wrong
+http://438robot:12345/test.html: timed out
+http://438robot:12345/test.html: byte count wrong
+http://438robot:12345/test.html: timed out
+http://438robot:12345/test.html: byte count wrong
+1000 fetches, 5 max parallel, 67728 bytes, in 60.5484 seconds
+67.728 mean bytes/connection
+16.5157 fetches/sec, 1118.58 bytes/sec　(重要性能指标吞吐量)
+msecs/connect: 0.184707 mean, 0.452 max, 0.148 min　(重要指标响应时间)
+msecs/first-response: 2.2712 mean, 2.863 max, 0.643 min
+4 timeouts
+4 bad byte counts
+HTTP response codes:
+  code 400 -- 996
+
+测试结果表明，服务器每秒响应16.5157个请求，每个请求响应的平均时间为0.184707s,最大时间为0.452s，最小时间为0.148s
